@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import Buttons from "./Buttons";
+import {useDispatch, useSelector} from "react-redux";
+import {getStudent} from "./redux/Student";
+import {useEffect} from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    const dispatch = useDispatch()
+    const counter = useSelector((state) => state.counter)
+    const student = useSelector((state) => state.student)
+
+    useEffect(() => {
+        dispatch(getStudent())
+    },[])
+    console.log(student.value)
+    return (
+    <div>
+      <h1>Counter: {counter.value}</h1>
+      <hr/>
+      <Buttons />
+            {student.value.map(val => {
+                return <h1>
+                        {val.id} - {val.title}
+                    </h1>
+                }
+            )}
     </div>
   );
 }
